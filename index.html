@@ -22,15 +22,20 @@
         }
 
         body {
-            background-color: #80a9a9;
+            background-color: #c9ca9e;
+            background-image: url('bg.png');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             margin: 0;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             font-family: 'Dancing Script Local', 'Dancing Script', cursive, Arial, sans-serif;
-            font-size: 18px; /* base for mobile */
-            line-height: 1.4;
+            font-size: 19px; /* slightly larger base for mobile */
+            line-height: 1.44;
             padding: 20px;
             box-sizing: border-box;
             color: #222;
@@ -42,11 +47,11 @@
         }
         
         .presentacion, .padrinos, .recepcion, .despedida {
-            background-color: #a8d3d3;
+            background-color: rgba(225, 226, 132, 0.35); /* más transparente para mostrar mejor bg.png */
             border-radius: 15px;
             padding: 18px;
             margin: 12px 0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
             text-align: center;
             box-sizing: border-box;
         }
@@ -61,7 +66,7 @@
 
         h2 { font-family: 'Dancing Script Local', cursive; margin-top: 0; font-size: 1.6rem; }
 
-        p { font-size: 1.05rem; margin: 8px 0; }
+        p { font-size: 1.2rem; margin: 8px 0; }
 
         img {
             max-width: 100%;
@@ -77,6 +82,7 @@
             border-radius: 10px;
             overflow: hidden;
             margin-top: 15px;
+            background: rgba(255,255,255,0.02);
         }
         
         .map-container iframe {
@@ -130,6 +136,18 @@
                 opacity: 0.35;
             }
         }
+
+        /* Mobile-specific increases */
+        @media (max-width: 480px) {
+            body {
+                font-size: 22px;
+                line-height: 1.5;
+            }
+            h1, .presentacion h1 { font-size: 3rem; }
+            h2 { font-size: 2rem; }
+            p { font-size: 1.4rem; }
+            .map-container { height: 220px; }
+        }
     </style>
 </head>
 <body>
@@ -139,20 +157,20 @@
         <br>Eduardo y Gudelia
     </h1>
     <img src="titleimage.jpg"/>
-    <p>Te invitamos a compartir con nosotros este día tan especial el:</p>
-    <p>15 de junio de 2024</p>
+    <p>Te invitamos a que nos acompañes en este dia tan especial el:</p>
+    <p>29 de julio de 2026</p>
     </div>
     <div class="padrinos">
     <h2>Nuestros padrinos:</h2>
     <img src="padrino1.jpg"/>
     <p>Axel Iván Rodríguez Martínez</p>
     <img src="padrino2.jpg"/>
-    <p>Isabella Rodríguez Martínez</p>
+    <p>Isabella Guadalupe Rodríguez Martínez</p>
     </div>
     <div class="recepcion">
-    <p>Esperamos que nos acompañen a las 14:00 en la Iglesia San Pedro.</p>
+    <p>Esperamos que nos acompañen a las 14:00 en el Registro Civil Melchor Ocampo.</p>
     <div class="map-container">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3755.370484373256!2d-99.14644!3d19.7096595!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1f4d601116175%3A0x97092bf527b0eb08!2sParroquia%20Del%20Se%C3%B1or%20de%20Los%20Milagros!5e0!3m2!1ses!2smx!4v1686787654321" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe src="https://maps.google.com/maps?q=19.7102188,-99.1432013&z=17&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
     </div>
     <div class="despedida">
