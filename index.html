@@ -147,6 +147,27 @@
             h2 { font-size: 2rem; }
             p { font-size: 1.4rem; }
             .map-container { height: 220px; }
+            /* Mobile: ensure background stays centered and static (not scrollable) */
+            html { background-color: #c9ca9e; }
+            body {
+                background-image: none; /* use pseudo-element for a true fixed bg on mobile */
+                background-color: transparent;
+            }
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background-image: url('bg.png');
+                background-size: cover;
+                background-position: center center;
+                background-repeat: no-repeat;
+                pointer-events: none;
+                z-index: -1;
+                -webkit-transform: translateZ(0);
+                transform: translateZ(0);
+            }
+            /* Ensure page content sits above the pseudo-element */
+            .wrapper { position: relative; z-index: 1; }
         }
     </style>
 </head>
