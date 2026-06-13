@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentacion de nuestra boda</title>
+    <style>
+        /* Fuentes locales */
+        @font-face {
+            font-family: 'Ballet';
+            src: url('Ballet-Regular-VariableFont_opsz.ttf') format('truetype');
+            font-weight: 100 900;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Dancing Script Local';
+            src: url('DancingScript-Regular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        body {
+            background-color: #80a9a9;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            font-family: 'Dancing Script Local', 'Dancing Script', cursive, Arial, sans-serif;
+            font-size: 18px; /* base for mobile */
+            line-height: 1.4;
+            padding: 20px;
+            box-sizing: border-box;
+            color: #222;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 480px;
+        }
+        
+        .presentacion, .padrinos, .recepcion, .despedida {
+            background-color: #a8d3d3;
+            border-radius: 15px;
+            padding: 18px;
+            margin: 12px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            box-sizing: border-box;
+        }
+        
+        h1, .presentacion h1 {
+            font-family: 'Ballet', 'Playball', cursive;
+            font-weight: 400;
+            margin: 0 0 10px 0;
+            font-size: 2.4rem; /* larger title */
+            line-height: 1.03;
+        }
+
+        h2 { font-family: 'Dancing Script Local', cursive; margin-top: 0; font-size: 1.6rem; }
+
+        p { font-size: 1.05rem; margin: 8px 0; }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px auto;
+            border-radius: 8px;
+        }
+        
+        .map-container {
+            width: 100%;
+            height: 250px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+        
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        @media (min-width: 768px) {
+            body {
+                align-items: center;
+                padding: 40px;
+            }
+            .wrapper {
+                max-width: 720px;
+            }
+            .map-container { height: 300px; }
+            h1 { font-size: 2.6rem; }
+        }
+
+        /* Hoja animation layer */
+        .leaf-layer {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: visible;
+            z-index: 60;
+        }
+
+        .leaf {
+            position: absolute;
+            will-change: transform, opacity;
+            pointer-events: none;
+            opacity: 0.65;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
+            transform-origin: center;
+        }
+
+        @keyframes fly-right-up {
+            0% {
+                transform: translate3d(0, 0, 0) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.6; }
+            100% {
+                transform: translate3d(140vw, -35vh, 0) rotate(360deg);
+                opacity: 0.35;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+    <div class="presentacion">
+    <h1>Nuestra boda:
+        <br>Eduardo y Gudelia
+    </h1>
+    <img src="titleimage.jpg"/>
+    <p>Te invitamos a compartir con nosotros este día tan especial el:</p>
+    <p>15 de junio de 2024</p>
+    </div>
+    <div class="padrinos">
+    <h2>Nuestros padrinos:</h2>
+    <img src="padrino1.jpg"/>
+    <p>Axel Iván Rodríguez Martínez</p>
+    <img src="padrino2.jpg"/>
+    <p>Isabella Rodríguez Martínez</p>
+    </div>
+    <div class="recepcion">
+    <p>Esperamos que nos acompañen a las 14:00 en la Iglesia San Pedro.</p>
+    <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3755.370484373256!2d-99.14644!3d19.7096595!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1f4d601116175%3A0x97092bf527b0eb08!2sParroquia%20Del%20Se%C3%B1or%20de%20Los%20Milagros!5e0!3m2!1ses!2smx!4v1686787654321" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    </div>
+    <div class="despedida">
+    <p>Esperamos contar con tu presencia para hacer de este día un recuerdo inolvidable.</p>
+    </div>
+    </div>
+    <div class="leaf-layer" aria-hidden="true"></div>
+
+    <script>
+    (function(){
+        const LAYER = document.querySelector('.leaf-layer');
+        if(!LAYER) return;
+
+        const LEAF_SRC = 'hoja.png';
+        const COUNT = 10; // fewer leaves for less density
+
+        function rand(min, max){ return Math.random()*(max-min)+min; }
+
+        for(let i=0;i<COUNT;i++){
+            const img = document.createElement('img');
+            img.className = 'leaf';
+            img.src = LEAF_SRC;
+
+            // random start positions: all start from the left (off-screen) with varied vertical position
+            const startLeft = rand(-60, -5); // start further off-screen to the left (vw) for dispersion
+            const startTop = rand(0, 100); // vh across full height
+            img.style.left = startLeft + 'vw';
+            img.style.top = startTop + 'vh';
+
+            // random size
+            const size = Math.round(rand(16, 72));
+            img.style.width = size + 'px';
+
+            // random animation duration and delay
+            const dur = rand(12, 28).toFixed(2); // longer durations
+            const delay = rand(-25, 8).toFixed(2); // wider delay spread so leaves are staggered
+            img.style.animation = `fly-right-up ${dur}s linear ${delay}s infinite`;
+
+            // slight rotation offset
+            img.style.transform = `rotate(${rand(0,360)}deg)`;
+
+            // subtle transparency variation
+            img.style.opacity = (rand(0.45, 0.8)).toFixed(2);
+
+            LAYER.appendChild(img);
+        }
+    })();
+    </script>
+
+    <script>
+    (function(){
+        const containers = Array.from(document.querySelectorAll('.wrapper > .presentacion, .wrapper > .padrinos, .wrapper > .recepcion, .wrapper > .despedida'));
+        if(!containers.length) return;
+
+        // make containers focusable and set initial styles
+        containers.forEach(c => c.setAttribute('tabindex', '0'));
+
+        let current = 0;
+        function setSelected(i){
+            if(i < 0) i = 0;
+            if(i >= containers.length) i = containers.length - 1;
+            containers.forEach((c, idx) => c.classList.toggle('selected', idx === i));
+            current = i;
+            // smoothly center the selected container
+            containers[current].scrollIntoView({behavior: 'smooth', block: 'center'});
+        }
+
+        // initial selection
+        setSelected(0);
+
+        // touch swipe detection
+        let startY = 0, startX = 0;
+        let lastAction = 0;
+        const ACTION_DELAY = 500; // ms between allowed actions
+
+        document.addEventListener('touchstart', e => {
+            startY = e.touches[0].clientY;
+            startX = e.touches[0].clientX;
+        }, {passive: true});
+
+        document.addEventListener('touchend', e => {
+            const now = Date.now();
+            if(now - lastAction < ACTION_DELAY) return;
+            const endY = e.changedTouches[0].clientY;
+            const endX = e.changedTouches[0].clientX;
+            const dy = endY - startY;
+            const dx = endX - startX;
+            const absY = Math.abs(dy);
+            const absX = Math.abs(dx);
+            const THRESH = 40; // px
+
+            // only consider mostly vertical swipes
+            if(absY > absX && absY > THRESH){
+                if(dy < 0) { // swipe up -> next
+                    setSelected(current + 1);
+                } else { // swipe down -> prev
+                    setSelected(current - 1);
+                }
+                lastAction = now;
+            }
+        }, {passive: true});
+
+        // also allow clicks/taps to select a container
+        containers.forEach((c, idx) => c.addEventListener('click', () => setSelected(idx)));
+
+        // wheel support (desktop)
+        let wheelTimeout = null;
+        window.addEventListener('wheel', e => {
+            if(wheelTimeout) return;
+            if(Math.abs(e.deltaY) < 30) return;
+            if(e.deltaY > 0) setSelected(current + 1); else setSelected(current - 1);
+            wheelTimeout = setTimeout(() => { wheelTimeout = null; }, 400);
+        }, {passive: true});
+
+        // CSS for selected state (dynamic fallback if needed)
+        const style = document.createElement('style');
+        style.textContent = `
+            .wrapper > div { transition: transform 300ms ease, box-shadow 300ms ease, border-color 300ms ease; }
+            .wrapper > div.selected { transform: scale(1.03); box-shadow: 0 12px 28px rgba(0,0,0,0.18); border: 2px solid rgba(255,255,255,0.6); }
+        `;
+        document.head.appendChild(style);
+    })();
+    </script>
+
+</body>
+</html>
